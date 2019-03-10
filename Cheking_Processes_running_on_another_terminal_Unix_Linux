@@ -1,0 +1,24 @@
+Solution1:
+
+  Command: screen 
+    User2 should run screen 
+    User1 should do: sudo -u herUsername screen -x
+
+Solution2:
+  Command: script
+    User2 runs script -f 
+    User1 "tail -fn +0 /path/to/typescript"
+
+Solution3:
+  Edit ~/.bashrc to register each command immediately as opposed to at the end of session. 
+    Command: export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
+  history -a appends to ~/.bash_history file immediately instead of at the end of session
+  history -c clears current session history
+  history -r reads the ~/.bash_history file that we've appended to, back into our session history
+
+##The PROMPT_COMMAND parameter contains commands that are executed before each new command prompt. So command1 will be saved to history only when command2 is executed. 
+
+##See the time of execution of command in ~/.bash_history:
+  Add timestamp next to each command to see when it was executed. Add following to ~/.bashrc. 
+    export HISTTIMEFORMAT="%d/%m/%y %T "
