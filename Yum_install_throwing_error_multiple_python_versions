@@ -1,21 +1,20 @@
 Issues: After installing Python 3.7.1 along with 2.7.5 I was getting error while running "yum install/search <package>"
 
-Error message:
-yum search package
-  File "/usr/bin/yum", line 30
-    except KeyboardInterrupt, e:
-                            ^
-SyntaxError: invalid syntax
+  Error message:
+  yum search package
+    File "/usr/bin/yum", line 30
+      except KeyboardInterrupt, e:
+                              ^
+  SyntaxError: invalid syntax
 
 Resolution: 
-
-If you set python3 globally on your system change the yumshebang to python2:
-# vi /usr/bin/yum
-FROM:
-#!/usr/bin/python
-TO:
-#!/usr/bin/python2.7
-
+  If you set python3 globally on your system change the yumshebang to python2:
+    # vi /usr/bin/yum
+    FROM:
+      #!/usr/bin/python
+    TO:
+      #!/usr/bin/python2.7 
+  
 
 Error message:
 Downloading packages:
@@ -27,14 +26,29 @@ Exiting on user cancel
 
 Resolution: 
 The issue is also related to Python 3 set as a default global version. To fix this error update /usr/libexec/urlgrabber-ext-down script:
-# vi /usr/libexec/urlgrabber-ext-down
-FROM:
-#!/usr/bin/python
-TO:
-#!/usr/bin/python2.7
+  # vi /usr/libexec/urlgrabber-ext-down
+  FROM:
+    #!/usr/bin/python
+  TO:
+    #!/usr/bin/python2.7
+  
+Error message: 
+[root@bosdevxininf01 ~]# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  File "/bin/yum-config-manager", line 135
+    except yum.Errors.RepoError, e:
+                               ^
+SyntaxError: invalid syntax
+
+Resolution: 
+  # vi /bin/yum-config-manager
+  FROM:
+    #!/usr/bin/python tt
+  TO: 
+    #!/usr/bin/python2 tt
+
 
 NOTE: In my case I create symlinks for Python version 2.7 and 3.7 so I had to put #!/usr/bin/python2 instead of #!/usr/bin/python2.7
-[root@bosdevxininf01 ~]# ls -l /usr/bin/python*
-lrwxrwxrwx  1 root root   24 Jan  5 01:15 /usr/bin/python -> /usr/local/bin/python3.7
-lrwxrwxrwx. 1 root root    9 Dec  5 13:19 /usr/bin/python2 -> python2.7
--rwxr-xr-x. 1 root root 7216 Oct 30 19:46 /usr/bin/python2.7
+  [root@bosdevxininf01 ~]# ls -l /usr/bin/python*
+  lrwxrwxrwx  1 root root   24 Jan  5 01:15 /usr/bin/python -> /usr/local/bin/python3.7
+  lrwxrwxrwx. 1 root root    9 Dec  5 13:19 /usr/bin/python2 -> python2.7
+  -rwxr-xr-x. 1 root root 7216 Oct 30 19:46 /usr/bin/python2.7
